@@ -1,0 +1,457 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
+
+
+public class Final
+{
+	public static void main(String[] args) 
+	{
+        	MainClass m24 = new MainClass();
+		m24.menu();
+	}
+}
+class MainClass
+{
+	String inp;
+	BufferedReader br = new BufferedReader (new InputStreamReader (System.in));
+	char c;
+	int i;
+	int AvaTicks;
+	Customer custom[] = new Customer[100];
+	Customer c1 = new Customer();
+	Ticket[] tick = new Ticket[100];
+	Ticket t1 = new Ticket();
+	int totalticks = 100;
+	Random rand = new Random();
+	void menu()
+	{
+		try
+		{
+			System.out.println ("Welcome to Fly High Airline Systems! Please choose an option from the menu below to execute:");
+			System.out.println (" ");
+			System.out.println ("A. Add Customer Details");
+			System.out.println ("B. Book a ticket");
+			System.out.println ("C. Edit ticket details");
+			System.out.println ("D. Edit Customer Details");
+			System.out.println ("E. View Ticket Availability");
+			System.out.println ("F. Quit");
+			System.out.println (" ");
+			inp = br.readLine();
+			inp = inp.toUpperCase();
+			c = inp.charAt(0);
+		}
+		catch (Exception ex)
+		{	
+			System.out.println ("Wrong entry");
+		}
+		switch (c)
+		{
+			case 'A':
+			{
+				optionA();
+				break;
+				//works 
+			}
+			case 'B':
+			{
+				optionB();    
+				break;
+			}
+			case 'C':
+			{
+				optionC();
+				break;
+			}
+			case 'D':
+			{
+				optionD();
+				break;
+			}	
+			case 'E':
+			{
+				optionE();
+				break;
+			}
+			case 'F':
+			{
+				System.out.println (" ");
+				System.out.println ("Thank you for using this application! You are now exiting the application.");
+				break;
+			}
+		}
+	}
+	void optionA()
+	{       
+		try
+		{
+			Customer myCus = new Customer() ;
+			custom[i] = myCus ;
+			System.out.println ("pls enter the customer name");
+			custom[i].custName = br.readLine();
+			System.out.println ("pls enter the gender");
+			custom[i].gender = br.readLine();
+			System.out.println ("pls enter your address");
+			custom[i].address = br.readLine();
+			System.out.println ("pls enter your date of birth");
+			custom[i].DOB = br.readLine();
+			System.out.println ("pls enter your phone number");
+			custom[i].phoneNum = Integer.parseInt (br.readLine());
+			System.out.println (" ");       
+			System.out.println (" __________");
+			System.out.println (" ");
+			System.out.println ("Customer Name: " +custom[i].custName);
+			System.out.println ("Gender: " +custom[i].gender);
+			System.out.println ("Address: " +custom[i].address);
+			System.out.println ("Date of Birth: " +custom[i].DOB);
+			System.out.println ("Phone Number: " +custom[i].phoneNum);
+			System.out.println (" __________");
+			System.out.println (" ");
+			long l = rand.nextLong()  ;
+			l = l/1000000000; 
+			custom[i].finalcustomID = "FHAC" + Math.abs(l);           
+			System.out.println ("Data Saved! Your unique customer ID is " +custom[i].finalcustomID);
+			
+			menu();
+		}
+		catch (Exception ex)
+		{
+			System.out.println (ex.toString());
+		}    
+	}
+	void optionB()
+	{
+		String inpCustomerID = "";
+		boolean toggle = false;
+		try
+		{
+			System.out.println ("pls enter your customer ID");
+			inpCustomerID = br.readLine();
+			for (int i=0; i<100; i++)
+			{
+				if (custom[i] != null)
+				{
+					if (custom[i].finalcustomID != null)
+					{
+						if (custom[i].finalcustomID.equals(inpCustomerID))
+						{ 
+							System.out.println (" ");
+                                                     
+							System.out.println ("Your customer ID is valid");
+							System.out.println (" ");
+							toggle = true;
+							System.out.println ("pls enter the number of tickets");
+ 							tick[i] = new Ticket();
+							tick[i].numofticks = Integer.parseInt (br.readLine());
+							if (tick[i].numofticks <= totalticks)
+							{
+								
+                                                            
+								//   check date if its five days prior
+								//   if yes
+								System.out.println ("There are enough tickets to be booked");
+								System.out.println ("You have booked " +tick[i].numofticks+ " tickets");
+								AvaTicks = totalticks - tick[i].numofticks;
+								totalticks = AvaTicks;   
+								custom[i].num = rand.nextInt(9000000) + 1000000;
+								custom[i].finaltickID = "FHA" + custom[i].num;
+								System.out.println ("Your ticket number is " +custom[i].finaltickID);
+								//   else
+								//   System.out.println ("date is incorrect");
+							}
+							else if (tick[i].numofticks > totalticks)
+							{
+								System.out.println ("There are not sufficient tickets for your purchase");
+							}
+							
+							System.out.println (" ");       
+							System.out.println (" __________");
+							System.out.println (" ");
+							 Date dt = new Date();
+							  SimpleDateFormat dateFormatt = new SimpleDateFormat( "dd-MM-yyyy" );
+							  String  todayDate =  dateFormatt.format(dt);  
+							Calendar c = Calendar.getInstance(); 
+							c.setTime(dt); 
+							c.add(Calendar.DATE, 5);
+							       dt = c.getTime();
+							        SimpleDateFormat dateFormat = new SimpleDateFormat( "dd-MM-yyyy" );
+							    String  lateDate =  dateFormat.format(dt);
+							    System.out.println("Your Ticket booked this day" +" " +lateDate);
+							System.out.println ("Customer ID: " +custom[i].finalcustomID);
+							System.out.println ("Customer Name: " +custom[i].custName);
+							System.out.println ("Ticket number: " +custom[i].finaltickID);
+							//System.out.println ("Travelling date: " insert flying date);
+							System.out.println ("Source : Chennai");
+							System.out.println ("Destination : Bangalore");    
+							System.out.println ("Number of tickets: " +tick[i].numofticks);
+							tick[i].totalcost = 2000 * tick[i].numofticks;
+							System.out.println ("Cost : " +tick[i].totalcost);
+							System.out.println (" ");       
+							System.out.println (" __________");
+							System.out.println (" ");
+						}
+					}
+				}
+			}
+			if (toggle == false)
+			{
+				System.out.println ("invalid Customer ID");
+			}
+		}
+		catch (Exception ex)
+		{
+			System.out.println ("error");
+		}
+		switchCase4();
+	}
+	void switchCase4()
+	{
+		int inp=0;
+		try
+		{
+			System.out.println ("You can choose to:");
+			System.out.println (" ");
+			System.out.println ("1. Change the number of tickets");
+			System.out.println ("2. Go back to main menu");
+			inp = Integer.parseInt (br.readLine());
+		}
+		catch (Exception ex)
+		{
+			System.out.println ("error");
+		}
+		switch (inp)
+		{
+			case 1:
+			{
+				optionB();
+				break;
+			}
+			case 2:
+			{
+				menu();
+				break;
+			}
+		}
+	}     
+	void optionC()
+	{
+		int numofticks1 = 0;
+		System.out.println("Inside Option C") ;
+		boolean found = false;
+		try 
+		{
+			System.out.println ("enter the ticket number pls");
+			t1.inptickNum = br.readLine();
+		}
+		catch (Exception ex)
+		{
+			System.out.println ("error");
+		}
+		for (int m=0; m<100; m++)
+		{
+		if (custom[m] != null)
+		{ 
+			if (custom[m].finaltickID != null)
+			{
+				if (custom[m].finaltickID.equals(t1.inptickNum))
+				{
+					System.out.println ("Your ticket number is valid");
+					found = true ;
+					System.out.println (" ");
+					try
+					{
+						System.out.println ("pls enter the number of tickets");
+						numofticks1 = Integer.parseInt (br.readLine());
+						if (numofticks1 != tick[m].numofticks)
+						{
+							tick[m].numofticks = numofticks1;
+						}
+						System.out.println (" ");       
+						System.out.println (" __________");
+						System.out.println (" ");
+						//System.out.println ("Date: " +tick[i].traveldate);
+						System.out.println ("Source: Chennai" );
+						tick[m].totalcost = 2000 * tick[m].numofticks;
+						System.out.println ("Cost: " +tick[m].totalcost);                 
+						System.out.println ("Destination: Bangalore");
+						System.out.println ("Number of Tickets: " +tick[m].numofticks);
+						System.out.println (" __________");
+						System.out.println (" ");
+						break;
+					}
+					catch (Exception ex)
+					{
+						System.out.println ("error");
+						break;
+					}
+				}
+			} 
+			if (found == false )
+			{ 
+				System.out.println ("Your ticket number is invalid");
+			}
+                }
+                
+		
+		switchCase2();
+	}
+        }
+	void switchCase2()
+	{
+		int inp=0;
+		try
+		{
+			System.out.println("You can choose to:");
+			System.out.println("1. Edit ticket details");
+			System.out.println("2. Back to main menu");
+			System.out.println (" ");
+			inp = Integer.parseInt (br.readLine());
+		}
+		catch (Exception ex)
+		{
+			System.out.println ("error");
+		}
+		switch (inp)
+		{
+			case 1:
+			{
+				optionC();
+				break;           
+			}
+			case 2:
+			{
+				menu();
+				break;           
+			}
+		}
+	}
+	void optionD()
+	{
+		String inpCusID = "" ;
+		boolean found = false ; 
+		try
+		{
+			System.out.println ("enter your customer ID");
+			inpCusID = br.readLine();
+		}
+		catch (Exception ex)
+		{
+			System.out.println ("");
+		}           
+		for (int m=0; m<100; m++)
+		{
+			if ( custom[m] != null)
+			{
+				if (custom[m].finalcustomID.equals(inpCusID))
+				{
+					System.out.println ("Your customer ID is valid");
+					found = true ;
+					try
+					{
+						System.out.println ("pls enter the customer name");
+						System.out.println (" ");                
+						custom[m].custName = br.readLine();
+						System.out.println (" ");             
+						System.out.println ("pls enter the gender");
+						System.out.println (" ");                  
+						custom[m].gender = br.readLine();
+						System.out.println ("pls enter your address");
+						System.out.println (" ");                 
+						custom[m].address = br.readLine();
+						System.out.println ("pls enter your date of birth");
+						System.out.println (" ");                
+						custom[m].DOB = br.readLine();
+						System.out.println ("pls enter your phone number");
+						System.out.println (" ");                  
+						custom[m].phoneNum = Integer.parseInt (br.readLine());
+						System.out.println (" ");       
+						System.out.println (" __________");
+						System.out.println (" ");
+						System.out.println ("Date of Birth: " +custom[m].DOB);
+						System.out.println ("Gender: " +custom[m].gender);
+						System.out.println ("Address: " +custom[m].address);
+						System.out.println ("Name: " +custom[m].custName);
+						System.out.println (" __________");
+						System.out.println (" ");
+						break;
+					}
+					catch (Exception ex)
+					{
+						System.out.println ("Lands in exception");
+					}
+				}
+			}
+			else
+			{
+				break;
+			} 
+		}       
+		if (found == false )
+		{
+			System.out.println ("Your customer ID is invalid");
+		}
+		switchCase();
+	} 
+	void switchCase()
+	{
+		int inp=0;
+		try
+		{
+			System.out.println ("You can choose to:");
+			System.out.println ("1. Edit customer details");
+			System.out.println ("2. Back to main menu");
+			System.out.println (" ");
+			inp = Integer.parseInt (br.readLine());
+		}
+		catch (Exception ex)
+		{
+			System.out.println ("error");
+		}
+		switch (inp)
+		{
+			case 1:
+			{
+				optionD();
+				break;
+			}
+			case 2:
+			{
+				menu();
+				break;
+			}
+		}
+	}   
+	void optionE()
+	{
+		if (i == 0)
+		{
+			System.out.println ("number of tickets available are: " +totalticks);
+			menu();
+		}
+		else
+		{   
+			System.out.println ("the number of tickets available are " +(totalticks - i));
+			menu();
+		}
+	}
+}
+class Customer         
+{
+	String custName, DOB, gender, address, finalcustomID, finaltickID;
+	long customID;
+	int phoneNum, date, inp, num,d;
+}   
+class Ticket
+{   
+	int numofticks,inp;       
+	String traveldate;
+	int cost = 2000;
+	String source= "Chennai";
+	int totalcost;
+	String destin = "Bangalore";
+	double custID;
+	String inptickNum;
+}
